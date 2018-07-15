@@ -1,0 +1,81 @@
+body {
+    background: #74ebd5;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #ACB6E5, #74ebd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.login-content {
+    margin: 0 auto;
+    margin-top: 13%;
+    padding: 10px 10px;
+    width: 880px;
+    height: 400px;
+    box-shadow: 0 0 0 1px hsla(0,0%,100%,.3) inset,
+                0 .5em 1em rgba(0, 0, 0, 0.6);
+    text-shadow: 0 1px 1px hsla(0,0%,100%,.3);
+    background: hsla(0,0%,100%,.3);
+    border-radius: 10px;
+}
+.login-content .content-left {
+    width: 40%;
+    float: left;
+}
+.login-content .content-left .icon-niao- {
+    margin-left: 30%;
+    margin-top: 10%;
+    font-size: 10em;
+    display: block;
+}
+.login-content .content-left-title {
+    margin-left: 10%;
+    font-size: 2em;
+}
+.login-content .content-right {
+    margin-top: 12%;
+    width: 50%;
+    border-left: 1px solid #eee;
+    float: left;
+}
+.content-right input {
+    margin-left: 40px;
+    margin-top: 10px;
+    width: 300px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid #fff;
+    border-radius: 15px;
+    text-indent: 1em;
+    color: grey;
+    outline: none;
+    transition:all 0.6s;
+    -moz-transition: all 0.6s;
+    -webkit-transition: all 0.6s;
+    -o-transition: all 0.6s;
+}
+.content-right .btn-info {
+    margin-top: 10px;
+    margin-left: 32%;
+    width: 100px;
+    outline: none;
+    transition:all 0.6s;
+    -moz-transition: all 0.6s;
+    -webkit-transition: all 0.6s;
+    -o-transition: all 0.6s;
+}
+.content-right .btn-info:hover {
+    background: transparent;
+    border: 1px solid #fff;
+    transition:all 0.6s;
+    -moz-transition: all 0.6s;
+    -webkit-transition: all 0.6s;
+    -o-transition: all 0.6s;
+}
+.content-right .tips {
+    opacity: 0;
+    display: inline;
+    font-size: 16px;
+    color: crimson;
+    transition:all 0.6s;
+    -moz-transition: all 0.6s;
+    -webkit-transition: all 0.6s;
+    -o-transition: all 0.6s;
+}

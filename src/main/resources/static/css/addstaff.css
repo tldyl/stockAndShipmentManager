@@ -1,0 +1,8 @@
+.staff input {
+    width: 80%;
+    height: 30px;
+    text-indent: 1em;
+    border: 1px solid #aaa;
+    outline: none;
+    border-radius: 5px;
+}

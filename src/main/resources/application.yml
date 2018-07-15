@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/stock_and_shipment_manager
+    username: root
+    password: AWVabcdefg2326222
+  session:
+    store-type: redis
+  redis:
+    host: 127.0.0.1
+server:
+  port: 80
