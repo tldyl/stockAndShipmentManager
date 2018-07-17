@@ -2,6 +2,7 @@ package com.dyl.sell.bean;
 
 import com.dyl.sell.filter.DepartmentFilter;
 import com.dyl.sell.filter.IndexFilter;
+import com.dyl.sell.filter.StockFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +38,21 @@ public class WebConfig {
 
         List<String> urls = new ArrayList<>();
         urls.add("/department.html");
+
+        registrationBean.setUrlPatterns(urls);
+
+        return registrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean stockFilter() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+
+        StockFilter stockFilter = new StockFilter("StockFilter");
+        registrationBean.setFilter(stockFilter);
+
+        List<String> urls = new ArrayList<>();
+        urls.add("/stock.html"); //(名称暂时未定)
 
         registrationBean.setUrlPatterns(urls);
 

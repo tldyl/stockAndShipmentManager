@@ -381,3 +381,29 @@ accessToken: "1gvg12wjrgv3jg1vgjrv3r1vj1"
     ]
 }
 ```
+
+
+###获取首页统计信息(TODO)
+
+```
+GET /getStockAchievement
+```
+
+参数
+
+```
+accessToken: "1gvg12wjrgv3jg1vgjrv3r1vj1"
+```
+
+返回
+
+```
+{
+    code: 0,
+    msg: "成功",
+    data: {
+        xpos: ["Jan","Feb","March"],
+        ypos: [5221,5234,5246],
+    }
+}
+```

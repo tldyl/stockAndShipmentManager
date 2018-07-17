@@ -1,15 +1,29 @@
 $(document).ready(function(){
     $("#logout").click(function(){
         $(location).attr('href', 'login.html');
-    })
+    });
+    // 格式化时间数据
+    Date.prototype.formatMMDDYYYY = function() {
+        return (this.getMonth() + 1) +
+        "/" +  this.getDate() +
+        "/" +  this.getFullYear();
+    }
+//使用Ajax获取json数据
+    var jsonData = $.ajax({
+        url: '/getStockAchievement?accessToken=' + getCookie("accessToken"),
+        dataType: 'json',
+    }).done(function (results) {
+
+    // 将获取到的json数据分别存放到两个数组中
     var ctx = document.getElementById("myChart").getContext('2d');
+    alert(results.msg + " " + results.data + " " + getCookie("accessToken"));
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ["January", "February", "March", "April", "May", "June","July","August","September","October","November","December"],
+            labels: results.data.xpos,
             datasets: [{
                 label: '# of Votes',
-                data: [1200, 1009, 3121, 5324, 1292, 3453,1234,3425,6534,2345,2314,3765],
+                data: results.data.ypos,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -39,4 +53,5 @@ $(document).ready(function(){
             }
         }
     });
+    })
 })
