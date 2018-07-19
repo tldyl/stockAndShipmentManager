@@ -6,7 +6,8 @@ public enum ErrorEnums {
     USERNAME_NOT_EXIST(1,"用户名不存在"),
     WRONG_PASSWORD(2,"密码错误"),
     NO_AUTHORITY(3,"无权限"),
-    SEARCH_ARGUMENT_ERROR(4, "搜索参数错误。")
+    SEARCH_ARGUMENT_ERROR(4, "搜索参数错误。"),
+    TODO(5,"这个功能还没做完")
     ;
     private int code;
     private String msg;

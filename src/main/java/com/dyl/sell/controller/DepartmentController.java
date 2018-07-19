@@ -8,6 +8,7 @@ import com.dyl.sell.dto.DataToClientContainer;
 import com.dyl.sell.enums.ErrorEnums;
 import com.dyl.sell.enums.UserOperationCode;
 import com.dyl.sell.exception.SearchArgumentException;
+import com.dyl.sell.repository.CharactorAndAuthorityRepository;
 import com.dyl.sell.repository.DepartmentRepository;
 import com.dyl.sell.repository.UserRepository;
 import com.dyl.sell.service.FindEmployee;
@@ -41,7 +42,7 @@ public class DepartmentController {
     private final DepartmentRepository departmentRepository;
 
     @Autowired
-    public DepartmentController(UserRepository userRepository, DepartmentRepository departmentRepository) {
+    public DepartmentController(UserRepository userRepository, DepartmentRepository departmentRepository, CharactorAndAuthorityRepository charactorAndAuthorityRepository) {
         this.userRepository = userRepository;
         this.departmentRepository = departmentRepository;
     }
@@ -53,7 +54,7 @@ public class DepartmentController {
      */
     @GetMapping("/departmentManagement")
     public String departmentManagement(@RequestParam(required = false) String accessToken) {
-        if (OperationAuthorityCheck.hasAuthority(accessToken,null)) {
+        if (OperationAuthorityCheck.hasAuthority(accessToken,UserOperationCode.ENTER_USER_MANAGEMENT_PAGE.getCode())) {
             logger.info(redisTemplate.opsForValue().get("accessToken:"+accessToken) + "进入了部门管理页面。");
             return "/department.html";
         }
@@ -136,8 +137,13 @@ public class DepartmentController {
     public DataToClientContainer deleteEmployee(@RequestParam(required = false) String accessToken,Integer userId) {
         if (OperationAuthorityCheck.hasAuthority(accessToken, UserOperationCode.USER_COMPILE.getCode())) {
             try {
-                logger.info(redisTemplate.opsForValue().get("accessToken:"+accessToken) + "在数据库中删除了一个员工。");
-                userRepository.delete(userRepository.getOne(userId));
+                User me = userRepository.findByUsername((String)redisTemplate.opsForValue().get("accessToken:"+accessToken));
+                User target = userRepository.findByUid(userId);
+                if (OperationAuthorityCheck.hasHigherLevel(me, target)) {
+                    logger.info(me.getUsername() + "在数据库中删除了一个员工。");
+                    userRepository.delete(userRepository.getOne(userId));
+                    return DataToClient.send(ErrorEnums.SUCCESS.getCode(),ErrorEnums.SUCCESS.getMsg(),null);
+                }
             } catch (Exception e) {
                 logger.error("将用户从数据库中删除时出错！请检查用户信息是否完整无误。该用户的编号为：{}", userId);
                 return DataToClient.send(ErrorEnums.UNKNOWN_ERROR.getCode(), "将用户从数据库中删除时出错！请检查用户信息是否完整无误，若确认无误，请联系管理员。" , null);
@@ -156,11 +162,15 @@ public class DepartmentController {
     public DataToClientContainer deleteEmployee(@RequestParam(required = false) String accessToken,List<Integer> users) {
         if (OperationAuthorityCheck.hasAuthority(accessToken, UserOperationCode.USER_COMPILE.getCode())) {
             Integer currentUserId = null;
+            User me = userRepository.findByUsername((String)redisTemplate.opsForValue().get("accessToken:"+accessToken));
             try {
-                logger.info(redisTemplate.opsForValue().get("accessToken:"+accessToken) + "在数据库中删除了{}个员工。",users.size());
                 for (Integer userId : users) {
                     currentUserId = userId;
-                    userRepository.delete(userRepository.getOne(userId));
+                    User target = userRepository.getOne(userId);
+                    if (OperationAuthorityCheck.hasHigherLevel(me, target)) {
+                        userRepository.delete(target);
+                        logger.info("成功删除用户:{}，操作人：{}",target.getUsername(),me.getUsername());
+                    }
                 }
             } catch (Exception e) {
                 logger.error("将用户从数据库中批量删除时出错！请检查用户信息是否完整无误。该用户的编号为：{}", currentUserId);
@@ -179,11 +189,15 @@ public class DepartmentController {
     @ResponseBody
     public DataToClientContainer updateEmployee(@RequestParam(required = false) String accessToken, User user) {
         if (OperationAuthorityCheck.hasAuthority(accessToken, UserOperationCode.USER_COMPILE.getCode())) {
+            User me = userRepository.findByUsername((String)redisTemplate.opsForValue().get("accessToken:"+accessToken));
             try {
-                logger.info(redisTemplate.opsForValue().get("accessToken:"+accessToken) + "在数据库中修改了员工{}的信息。",user.getUid());
-                User user1 = userRepository.findByUid(user.getUid());
-                user.setPassword(user1.getPassword());
-                userRepository.save(user);
+                if (OperationAuthorityCheck.hasHigherLevel(me, user)) {
+                    User target = userRepository.findByUid(user.getUid());
+                    user.setPassword(target.getPassword());
+                    logger.info(me.getUsername() + "在数据库中修改了员工{}的信息。", user.getUid());
+                    userRepository.save(user);
+                    return DataToClient.send(ErrorEnums.SUCCESS.getCode(), ErrorEnums.SUCCESS.getMsg(), null);
+                }
             } catch (Exception e) {
                 logger.error("修改用户信息时出错！请检查用户信息是否完整无误。");
                 return DataToClient.send(ErrorEnums.UNKNOWN_ERROR.getCode(), "修改用户信息时出错！请检查用户信息是否完整无误，若确认无误，请联系管理员。" , null);
@@ -202,13 +216,17 @@ public class DepartmentController {
     public DataToClientContainer updateEmployee(@RequestParam(required = false) String accessToken, List<User> users) {
         if (OperationAuthorityCheck.hasAuthority(accessToken, UserOperationCode.USER_COMPILE.getCode())) {
             Integer currentUserId = null;
-            User user1;
+            User target;
+            User me = userRepository.findByUsername((String)redisTemplate.opsForValue().get("accessToken:"+accessToken));
             try {
                 for (User user : users) {
-                    currentUserId = user.getUid();
-                    user1 = userRepository.findByUid(currentUserId);
-                    user.setPassword(user1.getPassword());
-                    userRepository.save(user);
+                    if (OperationAuthorityCheck.hasHigherLevel(me, user)) {
+                        currentUserId = user.getUid();
+                        target = userRepository.findByUid(currentUserId);
+                        user.setPassword(target.getPassword());
+                        userRepository.save(user);
+                        logger.info("成功修改了用户{}的信息，操作人：{}",target.getUsername(),me.getUsername());
+                    }
                 }
             } catch (Exception e) {
                 logger.error("批量修改用户信息时出错！请检查用户信息是否完整无误。该用户的编号为：{}", currentUserId);

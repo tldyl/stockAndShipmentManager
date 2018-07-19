@@ -17,4 +17,8 @@ public class CharactorAndAuthority {
      * 此角色所拥有的全部权限
      */
     private String hasAuthority;
+    /**
+     * 角色级别，可以操作低于自己级别的其他角色
+     */
+    private Integer level;
 }

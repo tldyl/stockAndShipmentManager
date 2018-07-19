@@ -27,10 +27,10 @@ password: "123456"
 ```
 
 
-###管理系统主页
+###管理系统首页
 
 ```
-GET /signIn
+GET /home
 ```
 
 参数
@@ -42,7 +42,7 @@ accessToken: "1gvg12wjrgv3jg1vgjrv3r1vj1"
 返回
 
 ```
-一个html页面
+一个html页面，不同角色对应的首页不相同
 ```
 
 

@@ -67,4 +67,29 @@ public class OperationAuthorityCheck {
         return false;
     }
 
+    public static boolean hasHigherLevel(User you,User target) {
+        String[] charactors = you.getCharactor().split(",");
+        HashSet<Integer> levels = new HashSet<>();
+        for (String charactor : charactors) {
+            levels.add(charactorAndAuthorityRepository.findByCharactor(charactor).getLevel());
+        }
+        int yourMaxLevel = Integer.MIN_VALUE;
+        for (Integer value : levels) {
+            if (value > yourMaxLevel) {
+                yourMaxLevel = value;
+            }
+        }
+        charactors = target.getCharactor().split(",");
+        levels = new HashSet<>();
+        for (String charactor : charactors) {
+            levels.add(charactorAndAuthorityRepository.findByCharactor(charactor).getLevel());
+        }
+        int targetMaxLevel = Integer.MIN_VALUE;
+        for (Integer value : levels) {
+            if (value > yourMaxLevel) {
+                targetMaxLevel = value;
+            }
+        }
+        return yourMaxLevel > targetMaxLevel;
+    }
 }

@@ -1,11 +1,14 @@
 package com.dyl.sell.controller;
 
 import com.dyl.sell.bean.RedisTemplateBean;
+import com.dyl.sell.domain.CharactorAndHomePage;
 import com.dyl.sell.domain.User;
 import com.dyl.sell.dto.DataToClientContainer;
 import com.dyl.sell.enums.ErrorEnums;
+import com.dyl.sell.repository.CharactorAndHomePageRepository;
 import com.dyl.sell.repository.UserRepository;
 import com.dyl.sell.service.AccessTokenGenerator;
+import com.dyl.sell.service.HomePageProvider;
 import com.dyl.sell.service.OperationAuthorityCheck;
 import com.dyl.sell.util.DataToClient;
 import org.slf4j.Logger;
@@ -21,6 +24,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * @author tldyl
  * @since 2018-6-15
@@ -32,12 +40,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Component
 public class UserController {
     private final UserRepository userRepository;
+    private final CharactorAndHomePageRepository charactorAndHomePageRepository;
     private static RedisTemplate redisTemplate = RedisTemplateBean.getRedisTemplate();
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, CharactorAndHomePageRepository charactorAndHomePageRepository) {
         this.userRepository = userRepository;
+        this.charactorAndHomePageRepository = charactorAndHomePageRepository;
     }
 
     /**
@@ -68,13 +78,28 @@ public class UserController {
      * @param accessToken 需要提供accessToken才可以访问这个页面
      * @return 如果提供了有效的accessToken则会跳转到主页面，否则跳转到403错误页面
      */
-    @GetMapping("/signIn")
-    public String signIn(@RequestParam(required = false) String accessToken) {
+    @GetMapping("/home")
+    public String home(@RequestParam(required = false) String accessToken) {
         if (OperationAuthorityCheck.hasAuthority(accessToken,null)) {
-            logger.info(redisTemplate.opsForValue().get("accessToken:"+accessToken) + "进入了主页。");
-            return "/index.html";
+            String username = (String)redisTemplate.opsForValue().get("accessToken:"+accessToken);
+            logger.info(username + "进入了主页。");
+            String homePage = HomePageProvider.getHomePage(username,userRepository,charactorAndHomePageRepository);
+            return "/" + homePage;
         }
         return "/403.html";
+    }
+
+    /**
+     * 获取最近时期的签到状态
+     * @param accessToken 需要通过accessToken找到用户信息
+     * @param recentDays 获取指定天数前的签到状态
+     * @return 指定天数前的签到状态
+     */
+    @PostMapping("/signIn")
+    @ResponseBody
+    public DataToClientContainer getSignInStatus(@RequestParam(required = false) String accessToken, Integer recentDays) {
+        //TODO
+        return DataToClient.send(ErrorEnums.TODO.getCode(),ErrorEnums.TODO.getMsg(),null);
     }
 
     /**
