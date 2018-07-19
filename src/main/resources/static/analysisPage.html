@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>分析页</title>
+  	<!-- Bootstrap -->
+  	<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/font-awesome.min.css" rel="stylesheet" >
+		<link href="css/analysisPage.css" rel="stylesheet">
+	<!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+	<!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+	<!--[if lt IE 9]>
+	<script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+  </head>
+	<body>
+	  <div class="container-fluid">
+			<div class="col-md-2">
+				<div class="sidebar">
+						<div class="logobar">
+							<img src="img/logo.png"/>
+							<h3>Technology</h3>
+						</div>
+						<div class="navbar">
+							<ul class="nav" id="side-menu">
+								<li>
+									<a><i class="fa fa-dashboard fa-fw nav_icon"></i>主页<span class="fa arrow"></span></a>
+									<ul class="nav nav-second-level">
+											<li><a class="pages">分析页</a></li>
+											<li><a class="pages">工作台</a></li>
+										</ul>
+								</li>
+								<li>
+									<a><i class="fa fa-indent nav_icon"></i>员工管理<span class="fa arrow"></span></a>
+									<ul class="nav nav-second-level">
+										<li><a href="#">功能</a></li>
+										<li><a href="#">功能</a></li>
+									</ul>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-envelope nav_icon"></i>货物管理<span class="fa arrow"></span></a>
+									<ul class="nav nav-second-level">
+										<li><a href="#">功能</a></li>
+										<li><a href="#">功能</a></li>
+									</ul>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-flask nav_icon"></i>功能</a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-check-square-o nav_icon"></i>功能<span class="fa arrow"></span></a>
+									<ul class="nav nav-second-level">
+										<li><a href="#">功能</a></li>
+										<li><a href="#">功能</a></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+				</div>
+			</div>
+			<div class="col-md-10 container">
+				<div class="col-md-12 topbar-frame">
+					<div class="topbar">
+						<div class="smallnav">
+							<i class="fa fa-navicon fa-lg"></i>
+						</div>
+						<div class="account">
+							<div class="headcircle">
+								<img src="img/headshow.jpeg"/>
+							</div>
+							<span class="name">Jinzi</span>
+							<i class="fa fa-sign-out"></i>
+						</div>
+					</div>
+				</div>
+				<div class="fourtags">
+					<div class="col-md-3">
+						<div class="returns">
+							日总销售额
+							<span id="returnsCounts">￥10,880</span>
+							日环比 <p id="dailyRingGrowth">20%</p><!--（今天－昨天）/昨天×100% -->
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="payment">支付笔数</div>
+					</div>
+					<div class="col-md-3">
+						<div class="goods">进货</div>
+					</div>
+					<div class="col-md-3">
+						<div class="sale">出货</div>
+					</div>
+				</div>
+				<div class="col-md-12 data-analysis-frame">
+					<div class="data-analysis">
+						<div class="data-analysis-bar">
+							<div class="title">销售额</div>
+							<div class="choose">
+								<a>今日</a>
+								<a>本周</a>
+								<a>本月</a>
+								<a>全年</a>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-7">
+								<canvas id="sales-bar" width="300" height="100"></canvas>
+							</div>
+							<div class="col-md-5 salesRank">
+								<table class="table table-hover">
+									<th>门店销售额排名</th>
+									<tr><td>1<span>1000</span></td></tr>
+									<tr><td>1</td></tr>
+									<tr><td>1</td></tr>
+									<tr><td>1</td></tr>
+									<tr><td>1</td></tr>
+									<tr><td>1</td></tr>
+									<tr><td>1</td></tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-8 cargo-access-frame">
+					<div class="cargo-access">
+						<h3>进出货对比</h3>
+						<canvas id="contrast" width="360" height="100"></canvas>
+					</div>
+				</div>
+				<div class="col-md-4 product-proportion-frame">
+					<div class="product-proportion">
+						<h3>销售产品占比</h3>
+						<canvas id="proportion" width="200" height="140"></canvas>
+					</div>
+				</div>
+			</div>
+	  </div>
+		<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+		<script src="js/jquery.min.js"></script>
+		<!-- <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script> -->
+		<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/metisMenu.min.js"></script>
+		<script src="js/custom.js"></script>
+		<script src="js/pageSwitch.js"></script>
+		<script src="js/analysisPage.js"></script>
+		<script src="js/chart.js"></script>
+  </body>
+</html>

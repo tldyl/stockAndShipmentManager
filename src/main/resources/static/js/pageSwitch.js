@@ -23,9 +23,16 @@ function removeCookie(c_name) {
 }
 $(document).ready(function () {
     let pages = [];
-    pages[0] = "/signIn";
-    pages[1] = "/departmentManagement";
+    for (var i=0;i<15;i++) {
+        pages[i] = [];
+        for (var j=0;j<20;j++) {
+            pages[i][j] = "";
+        }
+    }
+    pages[1][0] = "/dataCentre";
+    pages[1][1] = "/stockManage";
+
     $(".pages").on("click",function () {
-        window.location = pages[$(this).parent().index()] + "?accessToken=" + getCookie("accessToken");
+        window.location = pages[$(this).parent().parent().index()][$(this).parent().index()] + "?accessToken=" + getCookie("accessToken");
     });
 });

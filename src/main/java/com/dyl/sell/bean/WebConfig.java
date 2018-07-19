@@ -1,5 +1,6 @@
 package com.dyl.sell.bean;
 
+import com.dyl.sell.filter.DataAnalysisFilter;
 import com.dyl.sell.filter.DepartmentFilter;
 import com.dyl.sell.filter.IndexFilter;
 import com.dyl.sell.filter.StockFilter;
@@ -53,6 +54,21 @@ public class WebConfig {
 
         List<String> urls = new ArrayList<>();
         urls.add("/stock.html"); //(名称暂时未定)
+
+        registrationBean.setUrlPatterns(urls);
+
+        return registrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean dataAnalysisFilter() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+
+        DataAnalysisFilter analysisFilter = new DataAnalysisFilter("DataAnalysisFilter");
+        registrationBean.setFilter(analysisFilter);
+
+        List<String> urls = new ArrayList<>();
+        urls.add("/analysisPage.html");
 
         registrationBean.setUrlPatterns(urls);
 

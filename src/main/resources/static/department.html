@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!--suppress ALL -->
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8">
@@ -35,7 +34,7 @@
         </div>
         <div class="container col-md-12">
           <div class="col-md-2">
-              <ul class="nav nav-pills nav-stacked">
+                <ul class="nav nav-pills nav-stacked">
                   <li role="presentation"><a class="pages">主页</a></li>
                   <li role="presentation" class="active"><a class="pages">部门管理</a></li>
                   <li role="presentation"><a href="#">功能</a></li>
@@ -51,11 +50,10 @@
           <div class="content col-md-10">
             <ul class="nav nav-tabs">
                 <li role="presentation" class="active"><a class="pages">人员管理</a></li>
-                <li role="presentation"><a class="pages">添加员工</a></li>
-                <li role="presentation"><a href="#">功能</a></li>
             </ul>
             <table class="table table-hover">
                 <tr>
+                    <td>选择</td>
                     <td>工号</td>
                     <td>姓名</td>
                     <td>性别</td>
@@ -90,41 +88,62 @@
                     </td>
                 </tr>
                 <tr class="information">
+                    <td><input type="radio" name="choose"/></td>
                     <td class="datum">201703058</td>
                     <td class="datum">金子</td>
                     <td class="datum">女</td>
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn datum department-orgcate">部门1</button>
-                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" class="department-cate">部门1</a></li>
-                                <li><a href="#" class="department-cate">部门2</a></li>
-                                <li><a href="#" class="department-cate">部门3</a></li>
-                            </ul>
-                        </div>
-                    </td>
+                    <td class="datum">部门1</td>
                     <td class="datum">123456</td>
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn datum chose-state">在职</button>
-                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" class="state">实习</a></li>
-                                <li><a href="#" class="state">离职</a></li>
-                                <li><a href="#" class="state">在职</a></li>
-                            </ul>
-                        </div>
-                    </td>
+                    <td class="datum">在职</td>
+                </tr>
+                <tr class="information">
+                    <td><input type="radio" name="choose"/></td>
+                    <td class="datum">201703058</td>
+                    <td class="datum">金子</td>
+                    <td class="datum">女</td>
+                    <td class="datum">部门2</td>
+                    <td class="datum">123456</td>
+                    <td class="datum">实习</td>
+                </tr>
+                <tr class="information">
+                    <td><input type="radio" name="choose"/></td>
+                    <td class="datum">201703058</td>
+                    <td class="datum">金子</td>
+                    <td class="datum">女</td>
+                    <td class="datum">部门3</td>
+                    <td class="datum">123456</td>
+                    <td class="datum">离职</td>
+                </tr>
+                <tr class="information">
+                    <td><input type="radio" name="choose"/></td>
+                    <td class="datum">201703058</td>
+                    <td class="datum">金子</td>
+                    <td class="datum">女</td>
+                    <td class="datum">部门3</td>
+                    <td class="datum">123456</td>
+                    <td class="datum">离职</td>
+                </tr>
+                <tr class="information">
+                    <td><input type="radio" name="choose"/></td>
+                    <td class="datum">201703058</td>
+                    <td class="datum">金子</td>
+                    <td class="datum">女</td>
+                    <td class="datum">部门3</td>
+                    <td class="datum">123456</td>
+                    <td class="datum">离职</td>
+                </tr>
+                <tr class="information">
+                    <td><input type="radio" name="choose"/></td>
+                    <td class="datum">201703058</td>
+                    <td class="datum">金子</td>
+                    <td class="datum">女</td>
+                    <td class="datum">部门3</td>
+                    <td class="datum">123456</td>
+                    <td class="datum">离职</td>
                 </tr>
             </table>
-            <button type="button" class="btn btn-warning" id="btn-warn">确认修改</button>
+            <button type="button" class="btn btn-warning" id="btn-warn">修改信息</button>
+            <button type="button" class="btn" id="btn-addstaff">添加员工</button>
             <div id="selector-mode">
                 <div class="btn-group">
                     <button id="search" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -146,6 +165,35 @@
                 </div><!-- /.col-lg-6 -->
             </div>
           </div>
+        </div>
+        <div id="shadow" class="row shadowoff"></div>
+        <div id="change-info" class="change-info-none row">
+            <div class="changeinfo-content">
+               <h1>修改信息</h1>
+               <div class="changeform">
+                    <span>工号:</span> <input type="text"/>
+                    <span>姓名:</span> <input type="text"/><br/>
+                    <span>性别:</span> <input type="text"/>
+                    <span>部门:</span> <input type="text"/><br/>
+                    <span>手机:</span> <input type="text"/>
+                    <span>状态:</span> <input type="text"/>
+               </div>
+               <button id="change-info-submit" class="btn btn-warning">提交</button>
+            </div>
+        </div>
+        <div id="add-staff" class="add-staff-none row">
+            <div class="add-staff-content">
+                <h1>添加员工</h1>
+                <div class="addform">
+                    <span>工号:</span> <input type="text"/>
+                    <span>姓名:</span> <input type="text"/><br/>
+                    <span>性别:</span> <input type="text"/>
+                    <span>部门:</span> <input type="text"/><br/>
+                    <span>手机:</span> <input type="text"/>
+                    <span>状态:</span> <input type="text"/>
+                </div>
+                <button id="add-staff-submit" class="btn">提交</button>
+            </div>
         </div>
     </div>
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->

@@ -1,0 +1,221 @@
+.container-fluid {
+    padding: 0;
+}
+.col-md-2 {
+    padding: 0;
+}
+.logobar {
+    position: fixed;
+    width: 100%;
+    height: 60px;
+    background: #002140;
+}
+.logobar img {
+    margin-left: 35px;
+    margin-top: -8px;
+    height: 70%;
+}
+@media screen and (max-width: 1370px) {
+    .logobar img {
+        margin-left: 5px;
+        transition:all 0.6s;
+        -moz-transition: all 0.6s;
+        -webkit-transition: all 0.6s;
+        -o-transition: all 0.6s;
+    }
+}
+.logobar h3 {
+    display: inline-block;
+    margin: 0 0 0 10px;
+    color: #fff;
+    line-height: 60px;
+    font-weight: bold;
+}
+@media screen and (max-width: 1186px) {
+    .logobar h3 {
+        font-size: 20px;
+        transition:all 0.6s;
+        -moz-transition: all 0.6s;
+        -webkit-transition: all 0.6s;
+        -o-transition: all 0.6s;
+    }
+}
+.navbar {
+    position: fixed;top: 60px;
+    width: 16.66%;
+    height: 100%;
+    border-radius: 0;
+    background: #001529;
+    overflow: hidden;
+}
+.navbar .nav li a {
+    color: #a9b0b7;
+}
+.navbar .nav li {
+    margin: 10px 5px 0 0;
+    transition:all 0.6s;
+    -moz-transition: all 0.6s;
+    -webkit-transition: all 0.6s;
+    -o-transition: all 0.6s;
+}
+.nav>li>a:hover{
+    color: #fff;
+    transition:all 0.6s;
+    -moz-transition: all 0.6s;
+    -webkit-transition: all 0.6s;
+    -o-transition: all 0.6s;
+}
+.nav>li>a:focus, .nav>li>a:hover {
+    background: none;
+}
+.navbar .arrow {
+    float: right;
+}
+.nav-second-level {
+    padding: 0;
+    background: #000c17;
+}
+.navbar .fa.arrow:before {
+    content: "\f104";
+}
+.navbar .active>a>.fa.arrow:before {
+    content: "\f107";
+}
+.nav-second-level li {
+   padding-left: 35px;
+}
+.nav_icon {
+    margin-right: 15px;
+}
+.container {
+    padding: 0;
+    background: #f0f2f5;
+}
+.container .topbar {
+    height: 60px;
+    background: #fff;
+    line-height: 60px;
+}
+.smallnav i{
+    margin-left: 20px;
+}
+.smallnav {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    float: left;
+    transition:all 0.6s;
+    -moz-transition: all 0.6s;
+    -webkit-transition: all 0.6s;
+    -o-transition: all 0.6s;
+}
+.smallnav:hover {
+    background: #e6f7ff;
+    transition:all 0.6s;
+    -moz-transition: all 0.6s;
+    -webkit-transition: all 0.6s;
+    -o-transition: all 0.6s;
+}
+.account {
+    padding: 0 30px;
+    float: right;
+    line-height: 60px;
+    height: 60px;
+    transition:all 0.6s;
+    -moz-transition: all 0.6s;
+    -webkit-transition: all 0.6s;
+    -o-transition: all 0.6s;
+}
+.account .headcircle {
+    display: inline-block;
+    margin-top: 10px;
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.account .headcircle img {
+    position: relative;top: -12px;
+    width: 40px;
+    height: 40px;
+}
+.account:hover {
+    background: #e6f7ff;
+    transition:all 0.6s;
+    -moz-transition: all 0.6s;
+    -webkit-transition: all 0.6s;
+    -o-transition: all 0.6s;
+}
+.account .name {
+    position: relative;top: -15px;
+    display: inline-block;
+}
+.account .fa-sign-out {
+    position: relative;top: -14px;
+}
+.fourtags .col-md-3 div{
+    padding: 20px;
+    height: 120px;
+    background: white;
+    border-radius: 5px;
+    color: #8c8c8c;
+}
+.fourtags .col-md-3 div span {
+    margin-left: -5px;
+    display: block;
+    font-size: 2em;
+    color: #000;
+}
+.fourtags .col-md-3 div p {
+    display: inline-block;
+}
+a {
+    cursor: pointer;
+    color: #000;
+}
+a:hover {
+    text-decoration: none;
+}
+.data-analysis {
+    padding: 20px;
+    height: 400px;
+    border-radius: 5px;
+    background: white;
+}
+.data-analysis-bar {
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    border-bottom: 1px solid #e2e2e2;
+}
+.data-analysis-bar .title {
+    float: left;
+}
+.data-analysis-bar .choose {
+    float: right;
+    font-size: 16px;
+}
+.topbar-frame {
+    padding: 0 0 20px 0;
+}
+.data-analysis-frame {
+    padding: 20px 15px;
+}
+.cargo-access {
+    margin-bottom: 20px;
+    height: 400px;
+    background: #fff;
+    border-radius: 5px;
+}
+.product-proportion {
+    height: 400px;
+    background: #fff;
+    border-radius: 5px;
+}
+.salesRank span {
+    float: right;
+}
+.cargo-access, .product-proportion {
+    padding: 20px;
+}

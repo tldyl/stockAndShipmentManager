@@ -1,12 +1,12 @@
 package com.dyl.sell.controller;
 
 import com.dyl.sell.bean.RedisTemplateBean;
-import com.dyl.sell.domain.CharactorAndHomePage;
 import com.dyl.sell.domain.User;
 import com.dyl.sell.dto.DataToClientContainer;
 import com.dyl.sell.enums.ErrorEnums;
 import com.dyl.sell.repository.CharactorAndHomePageRepository;
 import com.dyl.sell.repository.UserRepository;
+import com.dyl.sell.repository.UserSignInRepository;
 import com.dyl.sell.service.AccessTokenGenerator;
 import com.dyl.sell.service.HomePageProvider;
 import com.dyl.sell.service.OperationAuthorityCheck;
@@ -24,10 +24,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author tldyl
@@ -41,13 +39,15 @@ import java.util.List;
 public class UserController {
     private final UserRepository userRepository;
     private final CharactorAndHomePageRepository charactorAndHomePageRepository;
+    private final UserSignInRepository signInRepository;
     private static RedisTemplate redisTemplate = RedisTemplateBean.getRedisTemplate();
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public UserController(UserRepository userRepository, CharactorAndHomePageRepository charactorAndHomePageRepository) {
+    public UserController(UserRepository userRepository, CharactorAndHomePageRepository charactorAndHomePageRepository, UserSignInRepository signInRepository) {
         this.userRepository = userRepository;
         this.charactorAndHomePageRepository = charactorAndHomePageRepository;
+        this.signInRepository = signInRepository;
     }
 
     /**
@@ -97,9 +97,21 @@ public class UserController {
      */
     @PostMapping("/signIn")
     @ResponseBody
-    public DataToClientContainer getSignInStatus(@RequestParam(required = false) String accessToken, Integer recentDays) {
-        //TODO
-        return DataToClient.send(ErrorEnums.TODO.getCode(),ErrorEnums.TODO.getMsg(),null);
+    public DataToClientContainer getSignInStatus(@RequestParam(required = false) String accessToken,
+                                                 Integer recentDays) {
+        if (OperationAuthorityCheck.hasAuthority(accessToken,null)) {
+            User me = userRepository.findByUsername((String)redisTemplate.opsForValue().get("accessToken:"+accessToken));
+            String[] signInDates = signInRepository.findByUid(me.getUid()).getSignInDate().split(",");
+            String[] signInStatus = signInRepository.findByUid(me.getUid()).getSignInStatus().split(",");
+            Map<String, String> signInStatusMapping = new HashMap<>();
+            for (int i = signInDates.length - recentDays - 1 < 0 ? 0 : signInDates.length - recentDays - 1;
+                 i < signInDates.length;
+                 i++) {
+                signInStatusMapping.put(signInDates[i],signInStatus[i]);
+            }
+            return DataToClient.send(ErrorEnums.SUCCESS.getCode(),ErrorEnums.SUCCESS.getMsg(),signInStatusMapping);
+        }
+        return DataToClient.send(ErrorEnums.NO_AUTHORITY.getCode(),ErrorEnums.NO_AUTHORITY.getMsg(),null);
     }
 
     /**

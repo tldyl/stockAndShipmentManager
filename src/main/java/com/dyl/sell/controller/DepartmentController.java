@@ -18,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +44,7 @@ public class DepartmentController {
     private final DepartmentRepository departmentRepository;
 
     @Autowired
-    public DepartmentController(UserRepository userRepository, DepartmentRepository departmentRepository, CharactorAndAuthorityRepository charactorAndAuthorityRepository) {
+    public DepartmentController(UserRepository userRepository, DepartmentRepository departmentRepository) {
         this.userRepository = userRepository;
         this.departmentRepository = departmentRepository;
     }
@@ -91,6 +93,8 @@ public class DepartmentController {
     public DataToClientContainer addEmployee(@RequestParam(required = false) String accessToken, User user) {
         if (OperationAuthorityCheck.hasAuthority(accessToken, UserOperationCode.USER_COMPILE.getCode())) {
             try {
+                PasswordEncoder encoder = new BCryptPasswordEncoder();
+                user.setPassword(encoder.encode(user.getPassword()));
                 logger.info(redisTemplate.opsForValue().get("accessToken:"+accessToken) + "在数据库中新增了一个员工。");
                 userRepository.save(user);
             } catch (Exception e) {
@@ -114,8 +118,10 @@ public class DepartmentController {
             Integer currentUserId = null;
             try {
                 logger.info(redisTemplate.opsForValue().get("accessToken:"+accessToken) + "在数据库中新增了{}个员工。",users.size());
+                PasswordEncoder encoder = new BCryptPasswordEncoder();
                 for (User user : users) {
                     currentUserId = user.getUid();
+                    user.setPassword(encoder.encode(user.getPassword()));
                     userRepository.save(user);
                 }
             } catch (Exception e) {

@@ -12,6 +12,7 @@ public enum UserOperationCode {
     MANAGER_COMPILE(201,"管理层的增删改操作"),
     ADMINISTRATOR(99,"超级管理员权限，拥有一切权限"),
     ENTER_USER_MANAGEMENT_PAGE(100,"进入人员管理页面及员工的查询操作"),
+    ENTER_DATA_CENTRE_PAGE(101,"进入数据分析中心的权限")
     ;
     private int code;
     private String msg;

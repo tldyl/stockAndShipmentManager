@@ -20,9 +20,7 @@ password: "123456"
 {
 	code: 0,
 	msg: "成功",
-	data: {
-		accessToken: "1gvg12wjrgv3jg1vgjrv3r1vj1"
-	}
+	data: "1gvg12wjrgv3jg1vgjrv3r1vj1"
 }
 ```
 
@@ -404,6 +402,52 @@ accessToken: "1gvg12wjrgv3jg1vgjrv3r1vj1"
     data: {
         xpos: ["Jan","Feb","March"],
         ypos: [5221,5234,5246],
+    }
+}
+```
+
+###数据分析中心页面
+
+```
+GET /dataCentre
+```
+
+参数
+
+```
+accessToken: "1gvg12wjrgv3jg1vgjrv3r1vj1"
+```
+
+返回
+
+```
+一个html页面
+```
+
+###获取最近几天的签到状态
+
+```
+POST /signIn
+```
+
+参数
+
+```
+accessToken: "1gvg12wjrgv3jg1vgjrv3r1vj1"
+recentDays: 14 //单位是天
+```
+
+返回
+
+```
+{
+    code: 0,
+    msg: "成功",
+    data: {
+        "2018-7-15" : 0,
+        "2018-7-16" : 0,
+        "2018-7-17" : 1,
+        ...
     }
 }
 ```

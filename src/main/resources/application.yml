@@ -8,5 +8,7 @@ spring:
     store-type: redis
   redis:
     host: 127.0.0.1
+  jpa:
+    open-in-view: false
 server:
   port: 80
