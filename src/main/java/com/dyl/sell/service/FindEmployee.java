@@ -5,7 +5,6 @@ import com.dyl.sell.dto.ClientUser;
 import com.dyl.sell.enums.ErrorEnums;
 import com.dyl.sell.exception.SearchArgumentException;
 import com.dyl.sell.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -20,16 +19,13 @@ import java.util.List;
 
 @Component
 public class FindEmployee {
-    @Autowired
-    private static UserRepository userRepository;
-
     /**
      * 通过给定的规则查找匹配的用户
      * @param role 具体的规则
      * @return 所有匹配的用户
      * @throws SearchArgumentException 当传入的role属性格式不正确时，就会抛出此异常
      */
-    public static List<User> find(ClientUser role) throws SearchArgumentException {
+    public static List<User> find(ClientUser role, UserRepository userRepository) throws SearchArgumentException {
         List<User> allUsers = userRepository.findAll();
         List<User> result = new ArrayList<>();
         boolean skipped = true;

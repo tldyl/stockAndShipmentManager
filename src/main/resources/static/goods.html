@@ -5,22 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>分析页</title>
+    <title>工作台</title>
   	<!-- Bootstrap -->
   	<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link href="css/font-awesome.min.css" rel="stylesheet" >
-		<link href="css/analysisPage.css" rel="stylesheet">
+    <link href="css/analysisPage.css" rel="stylesheet">
+    <link href="css/goods.css" rel="stylesheet">
+    <link href="http://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
 		<link rel="icon" href="img/logo.png" type="img/x-ico" />
 	<!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
 	<!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
 	<!--[if lt IE 9]>
 	<script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 	<script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-	<![endif]-->
+  <![endif]-->
   </head>
 	<body>
 	  <div class="container-fluid">
-			<div class="col-md-2" id="sidebar-frame">
+			<div class="col-md-2">
 				<div class="sidebar">
 						<div class="logobar">
 							<img src="img/logo.png"/>
@@ -36,7 +38,7 @@
 										</ul>
 								</li>
 								<li>
-									<a href="#"><i class="fa fa-archive nav_icon"></i>商品管理<span class="fa arrow"></span></a>
+										<a href="#"><i class="fa fa-archive nav_icon"></i>商品管理<span class="fa arrow"></span></a>
 										<ul class="nav nav-second-level">
 											<li><a href="#">商品列表</a></li>
 											<li><a href="#">添加新商品</a></li>
@@ -80,66 +82,54 @@
 						</div>
 					</div>
 				</div>
-				<div class="fourtags">
-					<div class="col-md-3">
-						<div class="returns">
-							日总销售额
-							<span id="returnsCounts">￥10,880</span>
-							日环比 <p id="dailyRingGrowth">20%</p><!--（今天－昨天）/昨天×100% -->
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="payment">支付笔数</div>
-					</div>
-					<div class="col-md-3">
-						<div class="goods">进货</div>
-					</div>
-					<div class="col-md-3">
-						<div class="sale">出货</div>
-					</div>
-				</div>
-				<div class="col-md-12 data-analysis-frame">
-					<div class="data-analysis">
-						<div class="data-analysis-bar">
-							<div class="title">销售额</div>
-							<div class="choose">
-								<a>今日</a>
-								<a>本周</a>
-								<a>本月</a>
-								<a>全年</a>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-7" id="salesbar-frame">
-								<canvas id="sales-bar" width="240" height="80"></canvas>
-							</div>
-							<div class="col-md-5 salesRank">
-								<table class="table table-hover">
-									<th>门店销售额排名</th>
-									<tr><td>1<span>1000</span></td></tr>
-									<tr><td>1</td></tr>
-									<tr><td>1</td></tr>
-									<tr><td>1</td></tr>
-									<tr><td>1</td></tr>
-									<tr><td>1</td></tr>
-									<tr><td>1</td></tr>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-8 cargo-access-frame">
-					<div class="cargo-access">
-						<h3>进出货对比</h3>
-						<canvas id="contrast" width="360" height="100"></canvas>
-					</div>
-				</div>
-				<div class="col-md-4 product-proportion-frame">
-					<div class="product-proportion">
-						<h3>销售产品占比</h3>
-						<canvas id="proportion" width="200" height="140"></canvas>
-					</div>
-				</div>
+				<div class="example ex-1">
+          <table class="table display" id="myTable">
+            <thead>
+              <tr>
+                <th class="no-sort">缩略图</th>
+                <th>商品名称</th>
+                <th>货号</th>
+                <th class="number">价格</th>
+                <th>上架</th>
+                <th>库存</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><img src="http://place-hoff.com/100/100" width="50"></td>
+                <td>production name1<a class="redact-tag">编辑</a></td>
+                <td data-sort-value="2">ACE1968</td>
+                <td>43</td>
+                <td><span class="fa fa-check"></span></td>
+                <td>100</td>
+              </tr>
+              <tr>
+                <td><img src="http://www.fillmurray.com/100/100" width="50"></td>
+                <td>production name2<a class="redact-tag">编辑</a></td>
+                <td data-sort-value="4">ACE1232123</td>
+                <td>30</td>
+                <td><span class="fa fa-check"></span></td>
+                <td>130</td>
+              </tr>
+              <tr>
+                <td><img src="https://www.placecage.com/100/100" width="50"></td>
+                <td>production name3<a class="redact-tag">编辑</a></td>
+                <td data-sort-value="1">ACE23421</td>
+                <td>69</td>
+                <td><span class="fa fa-check"></span></td>
+                <td>73</td>
+              </tr>
+              <tr>
+                <td><img src="http://www.stevensegallery.com/200/200" width="50"></td>
+                <td>production name4<a class="redact-tag">编辑</a></td>
+                <td data-sort-value="3">ACE53442</td>
+                <td>37</td>
+                <td><span class="fa fa-check"></span></td>
+                <td>100</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 			</div>
 	  </div>
 		<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
@@ -149,8 +139,10 @@
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/metisMenu.min.js"></script>
 		<script src="js/custom.js"></script>
-		<script src="js/pageSwitch.js"></script>
-		<script src="js/analysisPage.js"></script>
-		<script src="js/chart.js"></script>
+    <script src="js/pageSwitch.js"></script>
+    <script src="js/jquery.tablesort.min.js"></script>
+    <!-- <script src="js/goods.js"></script> -->
+    <script src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="js/goods.js"></script>
   </body>
 </html>

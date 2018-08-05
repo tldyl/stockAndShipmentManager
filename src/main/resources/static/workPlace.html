@@ -5,11 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>分析页</title>
+    <title>工作台</title>
   	<!-- Bootstrap -->
   	<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link href="css/font-awesome.min.css" rel="stylesheet" >
 		<link href="css/analysisPage.css" rel="stylesheet">
+		<link href="css/workPlace.css" rel="stylesheet">
+		<link rel="stylesheet" href="css/font_234130_nem7eskcrkpdgqfr.css">
 		<link rel="icon" href="img/logo.png" type="img/x-ico" />
 	<!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
 	<!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
@@ -20,7 +22,7 @@
   </head>
 	<body>
 	  <div class="container-fluid">
-			<div class="col-md-2" id="sidebar-frame">
+			<div class="col-md-2">
 				<div class="sidebar">
 						<div class="logobar">
 							<img src="img/logo.png"/>
@@ -36,7 +38,7 @@
 										</ul>
 								</li>
 								<li>
-									<a href="#"><i class="fa fa-archive nav_icon"></i>商品管理<span class="fa arrow"></span></a>
+										<a href="#"><i class="fa fa-archive nav_icon"></i>商品管理<span class="fa arrow"></span></a>
 										<ul class="nav nav-second-level">
 											<li><a href="#">商品列表</a></li>
 											<li><a href="#">添加新商品</a></li>
@@ -80,66 +82,57 @@
 						</div>
 					</div>
 				</div>
-				<div class="fourtags">
-					<div class="col-md-3">
-						<div class="returns">
-							日总销售额
-							<span id="returnsCounts">￥10,880</span>
-							日环比 <p id="dailyRingGrowth">20%</p><!--（今天－昨天）/昨天×100% -->
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="payment">支付笔数</div>
-					</div>
-					<div class="col-md-3">
-						<div class="goods">进货</div>
-					</div>
-					<div class="col-md-3">
-						<div class="sale">出货</div>
+				<div class="col-md-12 workbar">
+					<h3 id="greet">下午好！</h3><span class="username">金子</span><span class="position">职位</span>
+					<div>你还有3个未完成</div>
+				</div>
+				<div class="col-md-8 project-frame">
+					<div class="project-content">
+						<h3>进行中的项目</h3>
+						<table class="table">
+							<tr>
+								<td><h3>project1</h3><span class="label label-default">72%</span>
+									<p>project</p>
+								</td>
+								<td><h3>project1</h3><span class="label label-default">72%</span>
+									<p>project</p>
+								</td>
+								<td><h3>project1</h3><span class="label label-default">72%</span>
+									<p>project</p>
+								</td>
+							</tr>
+							<tr>
+								<td><h3>project1</h3><span class="label label-default">72%</span>
+									<p>project</p>
+								</td>
+								<td><h3>project1</h3><span class="label label-default">72%</span>
+									<p>project</p>
+								</td>
+								<td><h3>project1</h3><span class="label label-default">72%</span>
+									<p>project</p>
+								</td>
+							</tr>
+						</table>
+				  </div>
+				</div>
+				<div class="col-md-4 notice-frame">
+					<div class="notice-content">
+						<h3>重要通知</h3>
+						<table class="table">
+							<tr class="active"><td>important!</td></tr>
+							<tr class="success"><td>important!</td></tr>
+							<tr class="warning"><td>important!</td></tr>
+							<tr class="danger"><td>important!</td></tr>
+							<tr class="info"><td>important!</td></tr>
+						</table>
 					</div>
 				</div>
-				<div class="col-md-12 data-analysis-frame">
-					<div class="data-analysis">
-						<div class="data-analysis-bar">
-							<div class="title">销售额</div>
-							<div class="choose">
-								<a>今日</a>
-								<a>本周</a>
-								<a>本月</a>
-								<a>全年</a>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-7" id="salesbar-frame">
-								<canvas id="sales-bar" width="240" height="80"></canvas>
-							</div>
-							<div class="col-md-5 salesRank">
-								<table class="table table-hover">
-									<th>门店销售额排名</th>
-									<tr><td>1<span>1000</span></td></tr>
-									<tr><td>1</td></tr>
-									<tr><td>1</td></tr>
-									<tr><td>1</td></tr>
-									<tr><td>1</td></tr>
-									<tr><td>1</td></tr>
-									<tr><td>1</td></tr>
-								</table>
-							</div>
-						</div>
+				<div class="col-md-3 calendar-frame">
+					<div id="schedule-box" class="boxshaw">
 					</div>
 				</div>
-				<div class="col-md-8 cargo-access-frame">
-					<div class="cargo-access">
-						<h3>进出货对比</h3>
-						<canvas id="contrast" width="360" height="100"></canvas>
-					</div>
-				</div>
-				<div class="col-md-4 product-proportion-frame">
-					<div class="product-proportion">
-						<h3>销售产品占比</h3>
-						<canvas id="proportion" width="200" height="140"></canvas>
-					</div>
-				</div>
+				<div class="col-md-6"></div>
+				<div class="col-md-3"></div>
 			</div>
 	  </div>
 		<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
@@ -150,7 +143,7 @@
 		<script src="js/metisMenu.min.js"></script>
 		<script src="js/custom.js"></script>
 		<script src="js/pageSwitch.js"></script>
-		<script src="js/analysisPage.js"></script>
-		<script src="js/chart.js"></script>
+		<script src="js/workPlace.js"></script>
+		<script src="js/schedule.js"></script>
   </body>
 </html>

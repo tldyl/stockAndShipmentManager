@@ -1,0 +1,19 @@
+.example {
+  margin: 20px;
+}
+.redact-tag {
+  margin-left: 40px;
+  cursor: pointer;
+  opacity: 0;
+  transition:all 0.6s;
+  -moz-transition: all 0.6s;
+  -webkit-transition: all 0.6s;
+  -o-transition: all 0.6s;
+}
+#myTable tr td:hover .redact-tag {
+  opacity: 1;
+  transition:all 0.6s;
+  -moz-transition: all 0.6s;
+  -webkit-transition: all 0.6s;
+  -o-transition: all 0.6s;
+}

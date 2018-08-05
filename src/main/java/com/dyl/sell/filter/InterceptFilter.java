@@ -20,7 +20,7 @@ public class InterceptFilter implements Filter {
 
     @Override
     public void init(FilterConfig arg) throws ServletException {
-        logger.info("Initializing intercept filter...");
+        logger.info("Initializing " + msg + "...");
     }
     @Override
     public void doFilter(ServletRequest req, ServletResponse res,FilterChain fChain)

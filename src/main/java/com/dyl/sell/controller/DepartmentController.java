@@ -8,7 +8,6 @@ import com.dyl.sell.dto.DataToClientContainer;
 import com.dyl.sell.enums.ErrorEnums;
 import com.dyl.sell.enums.UserOperationCode;
 import com.dyl.sell.exception.SearchArgumentException;
-import com.dyl.sell.repository.CharactorAndAuthorityRepository;
 import com.dyl.sell.repository.DepartmentRepository;
 import com.dyl.sell.repository.UserRepository;
 import com.dyl.sell.service.FindEmployee;
@@ -251,7 +250,7 @@ public class DepartmentController {
     @ResponseBody
     public DataToClientContainer findEmployee(@RequestParam(required = false) String accessToken, ClientUser role) throws SearchArgumentException {
         if (OperationAuthorityCheck.hasAuthority(accessToken, null)) {
-            List<User> result = FindEmployee.find(role);
+            List<User> result = FindEmployee.find(role, userRepository);
             for (User user : result) {
                 user.setPassword("");
             }

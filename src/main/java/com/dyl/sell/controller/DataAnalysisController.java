@@ -7,6 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * @author tldyl
+ * @since 2018-7-19
+ *
+ * 数据分析相关的Controller
+ */
 @Controller
 @Component
 public class DataAnalysisController {

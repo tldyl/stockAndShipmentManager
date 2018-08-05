@@ -177,7 +177,7 @@ $(document).ready(function(){
                     document.getElementsByClassName('tips')[0].style.opacity='0';
                     document.getElementsByClassName('tips')[1].style.opacity='0';
                     self.location='home?accessToken='+response.data;
-                    setCookie("accessToken",response.data,1);
+                    setCookie("accountToken",response.data,1);
                 }
                 else if(response.code===1){
                     document.getElementsByClassName('tips')[0].style.opacity='1';

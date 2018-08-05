@@ -10,5 +10,9 @@ spring:
     host: 127.0.0.1
   jpa:
     open-in-view: false
+  devtools:
+      restart:
+        enabled: true
+        additional-paths: src/main/java,src/main/resources/static,src/main/resources/templates
 server:
   port: 80

@@ -69,15 +69,13 @@ $(document).ready(function(){
         }],
     },
 });
-  //  })
-  // $.ajax({
-  //   url: ' ',
-  //   dataType: "json",
-  //   data: {returnsCounts:$("#returnsConts").text(),dailyRingGrowth:$("#dailyRingGrowth").text()},
-  //   type: "POST",
-  //   success: function (response) {
-  //     $("#returnsConts").text(data.returnsCounts);
-  //     $("#dailyRingGrowth").text(data.dailyRingGrowth);
-  //   }
-  // });
+ $.ajax({
+  url: ' ',
+  dataType: "json",
+  data: {returnsCounts:$("#returnsConts").text(),dailyRingGrowth:$("#dailyRingGrowth").text()},   type: "POST",
+  success: function (response) {
+   $("#returnsConts").text(data.returnsCounts);
+   $("#dailyRingGrowth").text(data.dailyRingGrowth);
+  }
+  });
 });

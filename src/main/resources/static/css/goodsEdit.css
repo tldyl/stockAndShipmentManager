@@ -1,0 +1,19 @@
+.nav-tabs>li>a:hover {
+  color:#555;
+}
+.edit {
+  padding: 20px 40px;
+}
+.edit .edit-name {
+  display: inline-block;
+  margin-right: 20px;
+}
+.edit input, .edit select{
+  margin-top: 10px;
+  width: 300px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+}
+button {
+  margin-top: 20px;
+}

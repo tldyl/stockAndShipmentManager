@@ -3,26 +3,17 @@
 }
 .col-md-2 {
     padding: 0;
-}
+} 
 .logobar {
     position: fixed;
-    width: 100%;
-    height: 60px;
+    width: 16.66%;
+    height: 100%;
     background: #002140;
 }
 .logobar img {
     margin-left: 35px;
     margin-top: -8px;
-    height: 70%;
-}
-@media screen and (max-width: 1370px) {
-    .logobar img {
-        margin-left: 5px;
-        transition:all 0.6s;
-        -moz-transition: all 0.6s;
-        -webkit-transition: all 0.6s;
-        -o-transition: all 0.6s;
-    }
+    height:50px;
 }
 .logobar h3 {
     display: inline-block;
@@ -31,13 +22,9 @@
     line-height: 60px;
     font-weight: bold;
 }
-@media screen and (max-width: 1186px) {
-    .logobar h3 {
-        font-size: 20px;
-        transition:all 0.6s;
-        -moz-transition: all 0.6s;
-        -webkit-transition: all 0.6s;
-        -o-transition: all 0.6s;
+@media screen and (max-width: 1400px) {
+    .logobar img{
+        margin-left: 10px;
     }
 }
 .navbar {
@@ -126,6 +113,14 @@
     -webkit-transition: all 0.6s;
     -o-transition: all 0.6s;
 }
+/* @media screen and (max-width: 1245px) {
+    .logobar{
+        display: none;
+    }
+    #sidebar-frame {
+        display: none;
+    }
+} */
 .account .headcircle {
     display: inline-block;
     margin-top: 10px;
@@ -176,7 +171,7 @@ a {
 }
 a:hover {
     text-decoration: none;
-}
+} 
 .data-analysis {
     padding: 20px;
     height: 400px;
@@ -218,4 +213,4 @@ a:hover {
 }
 .cargo-access, .product-proportion {
     padding: 20px;
-}
+} 
