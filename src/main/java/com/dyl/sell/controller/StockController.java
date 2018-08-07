@@ -1,10 +1,18 @@
 package com.dyl.sell.controller;
 
+import com.dyl.sell.domain.WarehouseDetailed;
+import com.dyl.sell.domain.WarehouseMain;
+import com.dyl.sell.dto.ClientWarehouseDetailed;
 import com.dyl.sell.dto.DataToClientContainer;
 import com.dyl.sell.dto.IndexChart;
 import com.dyl.sell.enums.ErrorEnums;
+import com.dyl.sell.enums.UserOperationCode;
+import com.dyl.sell.exception.StockException;
+import com.dyl.sell.repository.WarehouseDetailedRepository;
+import com.dyl.sell.repository.WarehouseMainRepository;
 import com.dyl.sell.service.OperationAuthorityCheck;
 import com.dyl.sell.util.DataToClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +29,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @Component
 public class StockController {
+
+    private WarehouseMainRepository warehouseMainRepository;
+    private WarehouseDetailedRepository warehouseDetailedRepository;
+
+    @Autowired
+    public StockController(WarehouseMainRepository warehouseMainRepository,
+                           WarehouseDetailedRepository warehouseDetailedRepository) {
+        this.warehouseMainRepository = warehouseMainRepository;
+        this.warehouseDetailedRepository = warehouseDetailedRepository;
+    }
 
     @GetMapping("/stockManage")
     public String stock(@RequestParam(required = false) String accessToken) {
@@ -46,6 +64,61 @@ public class StockController {
             indexChart.setXpos(months);
             indexChart.setYpos(achievements);
             return DataToClient.send(ErrorEnums.SUCCESS.getCode(),ErrorEnums.SUCCESS.getMsg(),indexChart);
+        }
+        return DataToClient.send(ErrorEnums.NO_AUTHORITY.getCode(),ErrorEnums.NO_AUTHORITY.getMsg(),null);
+    }
+
+    /**
+     * 添加进货记录
+     * @param accessToken 需要提供accessToken才可以使用这个服务
+     * @param clientWarehouseDetailed 进货明细信息
+     * @return 保存情况
+     * @throws StockException 没有正确保存时会抛出这个异常
+     */
+    @PostMapping("/warehouseInfo/add")
+    @ResponseBody
+    public DataToClientContainer addWarehouseInfo(@RequestParam(required = false) String accessToken,
+                                                  ClientWarehouseDetailed clientWarehouseDetailed) throws StockException {
+        if (OperationAuthorityCheck.hasAuthority(accessToken,UserOperationCode.WAREHOUSE_COMPILE.getCode())) {
+            if (clientWarehouseDetailed != null) {
+                WarehouseMain warehouseMain = new WarehouseMain();
+                WarehouseDetailed warehouseDetailed = new WarehouseDetailed();
+
+                warehouseMain.setBillDate(clientWarehouseDetailed.getBillDate());
+                warehouseMain.setBillCode(clientWarehouseDetailed.getBillCode());
+                warehouseMain.setUnits(clientWarehouseDetailed.getUnits());
+                warehouseMain.setHandle(clientWarehouseDetailed.getHandle());
+                warehouseMain.setSummary(clientWarehouseDetailed.getSummary());
+                warehouseMain.setFullPayment(clientWarehouseDetailed.getFullPayment());
+                warehouseMain.setPayment(clientWarehouseDetailed.getPayment());
+
+                try {
+                    warehouseMainRepository.save(warehouseMain);
+                } catch (Exception e) {
+                    throw new StockException(ErrorEnums.ADD_WAREHOUSEINFO_ERROR.getCode(),ErrorEnums.ADD_WAREHOUSEINFO_ERROR.getMsg());
+                }
+
+                warehouseDetailed.setBillDate(clientWarehouseDetailed.getBillDate());
+                warehouseDetailed.setBillCode(clientWarehouseDetailed.getBillCode());
+                warehouseDetailed.setTradeCode(clientWarehouseDetailed.getTradeCode());
+                warehouseDetailed.setFullName(clientWarehouseDetailed.getFullName());
+                warehouseDetailed.setType(clientWarehouseDetailed.getType());
+                warehouseDetailed.setStandard(clientWarehouseDetailed.getStandard());
+                warehouseDetailed.setProduce(clientWarehouseDetailed.getProduce());
+                warehouseDetailed.setUnit(clientWarehouseDetailed.getUnit());
+                warehouseDetailed.setAmount(clientWarehouseDetailed.getAmount());
+                warehouseDetailed.setPrice(clientWarehouseDetailed.getPrice());
+                warehouseDetailed.setTotalPrice(clientWarehouseDetailed.getTotalPrice());
+
+                try {
+                    warehouseDetailedRepository.save(warehouseDetailed);
+                } catch (Exception e) {
+                    warehouseMainRepository.delete(warehouseMain);
+                    throw new StockException(ErrorEnums.ADD_WAREHOUSEINFO_ERROR.getCode(),ErrorEnums.ADD_WAREHOUSEINFO_ERROR.getMsg());
+                }
+
+                return DataToClient.send(ErrorEnums.SUCCESS.getCode(),ErrorEnums.SUCCESS.getMsg(),null);
+            }
         }
         return DataToClient.send(ErrorEnums.NO_AUTHORITY.getCode(),ErrorEnums.NO_AUTHORITY.getMsg(),null);
     }

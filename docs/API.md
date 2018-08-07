@@ -451,3 +451,51 @@ recentDays: 14 //单位是天
     }
 }
 ```
+
+###添加进货信息
+
+```
+POST /warehouseInfo/add
+```
+
+参数
+
+```
+accessToken: "1gvg12wjrgv3jg1vgjrv3r1vj1"
+clientWarehouseDetailed: {
+    billDate: "2018-8-7",
+    billCode: "7e10e32d8c030522b8a1e783a0ad1704",
+    units: "xx辣条厂",
+    handle: "刘醒",
+    summary: "这是摘要",
+    fullPayment: 1080.00,
+    payment: 1080.00,
+    tradeCode: "6-907992-513560",
+    fullName: "醒记辣条",
+    type: "微辣型",
+    standard: "包",
+    produce: "广东X市",
+    unit: "包",
+    amount: 900,
+    price: 1.20,
+    totalPrice: 1080.00
+}
+```
+
+返回
+
+```
+成功：
+{
+    code: 0,
+    msg: "成功",
+    data: null
+}
+
+失败：
+{
+    code: 6,
+    msg: "添加进货信息出错",
+    data: null
+}
+```
