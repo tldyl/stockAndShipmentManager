@@ -19,4 +19,14 @@ $(document).ready(function(){
   var mySchedule = new Schedule({
 		el: '#schedule-box',
   });
+  $.post(
+      "/signIn",
+      {
+        accessToken: getCookie("accessToken"),
+        recentDays: 31
+      },
+      function (data, status) {
+
+      }
+  );
 }); 

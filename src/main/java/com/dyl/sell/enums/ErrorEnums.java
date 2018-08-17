@@ -8,7 +8,8 @@ public enum ErrorEnums {
     NO_AUTHORITY(3,"无权限"),
     SEARCH_ARGUMENT_ERROR(4, "搜索参数错误。"),
     TODO(5,"这个功能还没做完"),
-    ADD_WAREHOUSEINFO_ERROR(6,"添加进货信息出错")
+    ADD_WAREHOUSEINFO_ERROR(6,"添加进货信息出错"),
+    NULL_DATA(7,"数据为空")
     ;
     private int code;
     private String msg;

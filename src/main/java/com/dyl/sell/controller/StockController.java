@@ -10,6 +10,7 @@ import com.dyl.sell.enums.UserOperationCode;
 import com.dyl.sell.exception.StockException;
 import com.dyl.sell.repository.WarehouseDetailedRepository;
 import com.dyl.sell.repository.WarehouseMainRepository;
+import com.dyl.sell.service.FindWarehouseInfo;
 import com.dyl.sell.service.OperationAuthorityCheck;
 import com.dyl.sell.util.DataToClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,26 +50,6 @@ public class StockController {
     }
 
     /**
-     * 获取销售业绩等统计信息(TODO)
-     * @param accessToken 需要提供accessToken才可以使用这个服务
-     * @return 指定的统计信息
-     */
-    @GetMapping("/getStockAchievement")
-    @ResponseBody
-    public DataToClientContainer getStockAchievement(@RequestParam(required = false) String accessToken) {
-        if (OperationAuthorityCheck.hasAuthority(accessToken,null)) {
-            //TODO
-            Integer[] achievements = {132,5123,5152,6123,4384,5321,6123,5423,4285,1764,2314,1023};
-            String[] months = {"January", "February", "March", "April", "May", "June","July","August","September","October","November","December"};
-            IndexChart indexChart = new IndexChart();
-            indexChart.setXpos(months);
-            indexChart.setYpos(achievements);
-            return DataToClient.send(ErrorEnums.SUCCESS.getCode(),ErrorEnums.SUCCESS.getMsg(),indexChart);
-        }
-        return DataToClient.send(ErrorEnums.NO_AUTHORITY.getCode(),ErrorEnums.NO_AUTHORITY.getMsg(),null);
-    }
-
-    /**
      * 添加进货记录
      * @param accessToken 需要提供accessToken才可以使用这个服务
      * @param clientWarehouseDetailed 进货明细信息
@@ -79,7 +60,7 @@ public class StockController {
     @ResponseBody
     public DataToClientContainer addWarehouseInfo(@RequestParam(required = false) String accessToken,
                                                   ClientWarehouseDetailed clientWarehouseDetailed) throws StockException {
-        if (OperationAuthorityCheck.hasAuthority(accessToken,UserOperationCode.WAREHOUSE_COMPILE.getCode())) {
+        if (OperationAuthorityCheck.hasAuthority(accessToken,UserOperationCode.WAREHOUSE_ADD.getCode())) {
             if (clientWarehouseDetailed != null) {
                 WarehouseMain warehouseMain = new WarehouseMain();
                 WarehouseDetailed warehouseDetailed = new WarehouseDetailed();
@@ -119,6 +100,80 @@ public class StockController {
 
                 return DataToClient.send(ErrorEnums.SUCCESS.getCode(),ErrorEnums.SUCCESS.getMsg(),null);
             }
+        }
+        return DataToClient.send(ErrorEnums.NO_AUTHORITY.getCode(),ErrorEnums.NO_AUTHORITY.getMsg(),null);
+    }
+
+    /**
+     * 删除进货记录(仅超级管理员有权限进行操作)
+     * @param accessToken 需要提供accessToken才可以使用这个服务
+     * @param billCode 根据进货单编号来删除记录
+     * @return 执行情况
+     */
+    @PostMapping("/warehouseInfo/delete")
+    @ResponseBody
+    public DataToClientContainer deleteWarehouseInfo(@RequestParam(required = false) String accessToken, String billCode) {
+        if (OperationAuthorityCheck.hasAuthority(accessToken,UserOperationCode.ADMINISTRATOR.getCode())) {
+            WarehouseMain warehouseMain = warehouseMainRepository.findByBillCode(billCode);
+            WarehouseDetailed warehouseDetailed = warehouseDetailedRepository.findByBillCode(billCode);
+            boolean isSuccessed = true;
+            String errorInfo = "";
+            if (warehouseMain != null) {
+                warehouseMainRepository.delete(warehouseMain);
+            } else {
+                isSuccessed = false;
+                errorInfo = "未在进货主表中找到相关记录！";
+            }
+            if (warehouseDetailed != null) {
+                warehouseDetailedRepository.delete(warehouseDetailed);
+            } else {
+                isSuccessed = false;
+                errorInfo = errorInfo + "未在进货明细表中找到相关记录！";
+            }
+            if (isSuccessed) {
+                return DataToClient.send(ErrorEnums.SUCCESS.getCode(),ErrorEnums.SUCCESS.getMsg(),null);
+            } else {
+                return DataToClient.send(ErrorEnums.UNKNOWN_ERROR.getCode(),errorInfo,null);
+            }
+        }
+        return DataToClient.send(ErrorEnums.NO_AUTHORITY.getCode(),ErrorEnums.NO_AUTHORITY.getMsg(),null);
+    }
+
+    /**
+     * 修改进货记录
+     * @param accessToken 需要提供accessToken才可以使用这个服务
+     * @param clientWarehouseDetailed 已修改的记录
+     * @return
+     */
+    public DataToClientContainer updateWarehouseInfo(@RequestParam(required = false) String accessToken,
+                                                     ClientWarehouseDetailed clientWarehouseDetailed) {
+        if (OperationAuthorityCheck.hasAuthority(accessToken,UserOperationCode.WAREHOUSE_COMPILE.getCode())) {
+            try {
+                addWarehouseInfo(accessToken, clientWarehouseDetailed);
+            } catch (Exception e) {
+                return DataToClient.send(ErrorEnums.UNKNOWN_ERROR.getCode(),"修改进货信息出错！",null);
+            }
+            return DataToClient.send(ErrorEnums.SUCCESS.getCode(),ErrorEnums.SUCCESS.getMsg(),null);
+        }
+        return DataToClient.send(ErrorEnums.NO_AUTHORITY.getCode(),ErrorEnums.NO_AUTHORITY.getMsg(),null);
+    }
+
+    /**
+     * 查询进货记录
+     * @param accessToken 需要提供accessToken才可以使用这个服务
+     * @param warehouseDetailed 搜索关键字
+     * @return
+     */
+    public DataToClientContainer searchWarehouseInfo(@RequestParam(required = false) String accessToken,
+                                                     ClientWarehouseDetailed warehouseDetailed,
+                                                     boolean isFindOne) {
+        if (OperationAuthorityCheck.hasAuthority(accessToken,null)) {
+            if (isFindOne) { //仅通过billCode或tradeCode查找一条记录
+                return DataToClient.send(ErrorEnums.SUCCESS.getCode(),ErrorEnums.SUCCESS.getMsg(),
+                        FindWarehouseInfo.findOne(warehouseDetailed,warehouseDetailedRepository));
+            }
+            return DataToClient.send(ErrorEnums.SUCCESS.getCode(),ErrorEnums.SUCCESS.getMsg(),
+                    FindWarehouseInfo.find(warehouseDetailed,warehouseDetailedRepository,warehouseMainRepository));
         }
         return DataToClient.send(ErrorEnums.NO_AUTHORITY.getCode(),ErrorEnums.NO_AUTHORITY.getMsg(),null);
     }

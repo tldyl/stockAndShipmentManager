@@ -10,7 +10,9 @@ package com.dyl.sell.enums;
 public enum UserOperationCode {
     USER_COMPILE(200,"员工的增删改操作"),
     MANAGER_COMPILE(201,"管理层的增删改操作"),
-    WAREHOUSE_COMPILE(202,"进货信息的增删改操作"),
+    WAREHOUSE_ADD(202,"进货信息的增操作"),
+    WAREHOUSE_COMPILE(203,"进货信息的修改操作"),
+    SALE_COMMIT(204,"销售额的提交操作"),
     ADMINISTRATOR(99,"超级管理员权限，拥有一切权限"),
     ENTER_USER_MANAGEMENT_PAGE(100,"进入人员管理页面及员工的查询操作"),
     ENTER_DATA_CENTRE_PAGE(101,"进入数据分析中心的权限")

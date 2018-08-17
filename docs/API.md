@@ -384,7 +384,7 @@ accessToken: "1gvg12wjrgv3jg1vgjrv3r1vj1"
 ###获取首页统计信息(TODO)
 
 ```
-GET /getStockAchievement
+GET /getSellAchievement
 ```
 
 参数
@@ -497,5 +497,27 @@ clientWarehouseDetailed: {
     code: 6,
     msg: "添加进货信息出错",
     data: null
+}
+```
+
+###获取日销售总额
+
+```
+GET /getGrossSales/daily
+```
+
+参数
+
+```
+accessToken: "1gvg12wjrgv3jg1vgjrv3r1vj1"
+```
+
+返回
+
+```
+{
+    code: 0,
+    msg: "成功",
+    data: 145276.17
 }
 ```

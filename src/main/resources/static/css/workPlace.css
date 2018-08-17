@@ -93,6 +93,9 @@ ul{
   background: #00C2B1;
   color: #fff;
 }
+.today-unchecked-flag {
+  background: #FF2040
+}
 .boxshaw{
   box-shadow: 2px 2px 15px 2px #e3e3e3;
 }
@@ -116,7 +119,7 @@ ul{
     -o-transition: all 0.6s;
 }
 .project-content .table td:hover {
-  background: rgb(0, 189, 255, 0.1);
+  background: rgba(0, 189, 255, 0.1);
   transition:all 0.6s;
     -moz-transition: all 0.6s;
     -webkit-transition: all 0.6s;

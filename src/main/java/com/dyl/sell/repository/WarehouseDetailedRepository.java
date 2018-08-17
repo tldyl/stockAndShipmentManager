@@ -10,5 +10,7 @@ public interface WarehouseDetailedRepository extends JpaRepository<WarehouseDeta
     public WarehouseDetailed findByTradeCode(String tradeCode);
     public WarehouseDetailed findByBillCode(String billCode);
     public List<WarehouseDetailed> findByBillDate(Date billDate);
+    public List<WarehouseDetailed> findByFullNameContaining(String fullName);
+    public List<WarehouseDetailed> findByType(String type);
     public List<WarehouseDetailed> findByUnit(String unit);
 }

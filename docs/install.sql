@@ -17,6 +17,11 @@ DROP TABLE IF EXISTS `user_sign_in`;
 DROP TABLE IF EXISTS `charactor_and_authority`;
 DROP TABLE IF EXISTS `charactor_and_home_page`;
 DROP TABLE IF EXISTS `department`;
+DROP TABLE IF EXISTS `gross_sale_daily`;
+DROP TABLE IF EXISTS `gross_trade_daily`;
+DROP TABLE IF EXISTS `gross_sale_monthly`;
+DROP TABLE IF EXISTS `gross_trade_monthly`;
+
 -- 进货主表
 CREATE TABLE `warehouse_main`(
   `id` int(0) NOT NULL,
@@ -51,14 +56,23 @@ CREATE TABLE `units`(
   `name`        varchar(32)    COMMENT '单位简称',
   `fax`         varchar(16)    COMMENT '传真',
   `telephone_number` varchar(16) NOT NULL COMMENT '电话',
-  `link_man`    varchar(10)   NOT NULL COMMENT '联系人',
+  `link_man`    varchar(10)   NOT NULL COMMENT '法人代表',
   `address`     varchar(128)   NOT NULL COMMENT '单位地址',
   `accounts`    varchar(32)   NOT NULL COMMENT '单位银行账户号码',
   `spell`       varchar(16)    COMMENT '拼音简码',
   PRIMARY KEY(`full_name`)
 );
 -- 本单位信息表
--- CREATE TABLE `unit`;
+CREATE TABLE `unit`(
+  `full_name`   varchar(128)  NOT NULL COMMENT '单位全称',
+  `address`     varchar(128)  NOT NULL COMMENT  '联系地址',
+  `link_man`    varchar(10)   NOT NULL COMMENT  '法人代表',
+  `telephone_number`  varchar(16) NOT NULL COMMENT '电话',
+  `accounts`    varchar(32)   NOT NULL COMMENT '开户银行账号',
+  `website`     varchar(48)   COMMENT '网址',
+  `tax_code`    varchar(64)   NOT NULL COMMENT '纳税号',
+  PRIMARY KEY(`full_name`)
+);
 -- 月销售分析临时表
 -- CREATE TABLE `temp`;
 -- 库存商品信息表
@@ -109,7 +123,13 @@ CREATE TABLE `sell_detailed`(
   PRIMARY KEY(`trade_code`)
 );
 -- 销售排行表
--- CREATE TABLE `sell_desc`;
+CREATE TABLE `sell_desc` (
+  `trade_code`  varchar(30) NOT NULL COMMENT '商品编号',
+  `full_name`   varchar(64) NOT NULL COMMENT '商品全称',
+  `amount`      int         NOT NULL COMMENT '销售数量',
+  `total_price` float(255, 2) NOT NULL COMMENT '销售总金额',
+  PRIMARY KEY(`trade_code`)
+);
 -- 进货退货主表
 CREATE TABLE `rewarehouse_main`(
   `id`          int       NOT NULL AUTO_INCREMENT,
@@ -214,4 +234,28 @@ CREATE TABLE `department` (
   `department_id`   int  NOT NULL  AUTO_INCREMENT,
   `department_name` varchar(16) NOT NULL,
   PRIMARY KEY(`department_id`)
+);
+-- 日销售总额统计表
+CREATE TABLE `gross_sale_daily`(
+  `day`   varchar(10)     NOT NULL COMMENT '日期',
+  `amount`  float(255, 2) NOT NULL COMMENT '当日销售总额',
+  PRIMARY KEY(`day`)
+);
+-- 日交易笔数统计表
+CREATE TABLE `gross_trade_daily`(
+  `day`   varchar(10)   NOT NULL COMMENT '日期',
+  `amount`  int         NOT NULL COMMENT '当日交易笔数',
+  PRIMARY KEY(`day`)
+);
+-- 月销售总额统计表
+CREATE TABLE `gross_sale_monthly`(
+  `month`   varchar(10)     NOT NULL COMMENT '日期',
+  `amount`  float(255, 2) NOT NULL COMMENT '当月销售总额',
+  PRIMARY KEY(`month`)
+);
+-- 月交易笔数统计表
+CREATE TABLE `gross_trade_monthly`(
+  `month`   varchar(10)   NOT NULL COMMENT '日期',
+  `amount`  int         NOT NULL COMMENT '当月交易笔数',
+  PRIMARY KEY(`month`)
 );
