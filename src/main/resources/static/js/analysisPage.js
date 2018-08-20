@@ -58,7 +58,7 @@ $(document).ready(function(){
         data: {
             labels:['commodity1','commodity2','commodity3','commodity4'],
             datasets: [{
-                data: [10, 20, 30, 40],
+                data: [20, 220, 30, 40],
                 backgroundColor:[
                     'rgb(240, 72, 100, 1)',
                     'rgb(250, 204, 20, 1)',

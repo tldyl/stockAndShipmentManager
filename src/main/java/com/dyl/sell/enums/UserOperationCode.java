@@ -15,7 +15,8 @@ public enum UserOperationCode {
     SALE_COMMIT(204,"销售额的提交操作"),
     ADMINISTRATOR(99,"超级管理员权限，拥有一切权限"),
     ENTER_USER_MANAGEMENT_PAGE(100,"进入人员管理页面及员工的查询操作"),
-    ENTER_DATA_CENTRE_PAGE(101,"进入数据分析中心的权限")
+    ENTER_DATA_CENTRE_PAGE(101,"进入数据分析中心的权限"),
+    ACCESS_STAT_DATA(102,"统计信息的获取权限")
     ;
     private int code;
     private String msg;

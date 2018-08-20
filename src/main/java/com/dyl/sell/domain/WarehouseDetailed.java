@@ -34,7 +34,7 @@ public class WarehouseDetailed {
      */
     private String fullName;
     /**
-     * 商品型号
+     * 商品类型
      */
     private String type;
     /**

@@ -27,4 +27,25 @@ public class ControllerExceptionHandler {
         return DataToClient.send(e.getCode(),e.getMessage(),null);
     }
 
+    @ExceptionHandler(ClassNotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public DataToClientContainer handleClassNotFoundException(StockException e) {
+        return DataToClient.send(e.getCode(),e.getMessage(),null);
+    }
+
+    @ExceptionHandler(IllegalAccessException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public DataToClientContainer handleIllegalAccessException(StockException e) {
+        return DataToClient.send(e.getCode(),e.getMessage(),null);
+    }
+
+    @ExceptionHandler(InstantiationException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public DataToClientContainer handleInstantiationException(StockException e) {
+        return DataToClient.send(e.getCode(),e.getMessage(),null);
+    }
+
 }

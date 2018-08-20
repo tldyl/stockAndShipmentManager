@@ -122,13 +122,14 @@ public class UserController {
     @GetMapping("/me")
     @ResponseBody
     public DataToClientContainer getMe(@RequestParam(required = false) String accessToken) {
-        if (OperationAuthorityCheck.hasAuthority(accessToken,null)) {
-            User user = userRepository.findByUsername((String) redisTemplate.opsForValue().get("accessToken:" + accessToken));
-            if (user == null) {
-                return DataToClient.send(ErrorEnums.UNKNOWN_ERROR.getCode(), "无效的accessToken。", null);
-            }
+        if (accessToken == null) {
+            return DataToClient.send(ErrorEnums.NO_AUTHORITY.getCode(),ErrorEnums.NO_AUTHORITY.getMsg(),null);
+        }
+        User user = userRepository.findByUsername((String) redisTemplate.opsForValue().get("accessToken:" + accessToken));
+        if (user == null) {
+            return DataToClient.send(ErrorEnums.UNKNOWN_ERROR.getCode(), "无效的accessToken。", null);
+        } else {
             return DataToClient.send(ErrorEnums.SUCCESS.getCode(), ErrorEnums.SUCCESS.getMsg(), user);
         }
-        return DataToClient.send(ErrorEnums.NO_AUTHORITY.getCode(), ErrorEnums.NO_AUTHORITY.getMsg(), null);
     }
 }

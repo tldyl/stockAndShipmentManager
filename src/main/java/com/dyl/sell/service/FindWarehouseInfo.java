@@ -11,6 +11,8 @@ import java.util.*;
 
 public class FindWarehouseInfo {
 
+    private static WarehouseInfoConverter converter;
+
     public static WarehouseDetailed findOne(ClientWarehouseDetailed cWarehouseDetailed, WarehouseDetailedRepository detailedRepository) {
         WarehouseDetailed warehouseDetailed;
         warehouseDetailed = detailedRepository.findByBillCode(cWarehouseDetailed.getBillCode());
@@ -23,8 +25,9 @@ public class FindWarehouseInfo {
     public static List<WarehouseDetailed> find(ClientWarehouseDetailed cWarehouseDetailed,
                                                WarehouseDetailedRepository warehouseDetailedRepository,
                                                WarehouseMainRepository warehouseMainRepository) {
-
-        WarehouseInfoConverter converter = new WarehouseInfoConverter(warehouseMainRepository, warehouseDetailedRepository);
+        if (converter == null) {
+            converter = new WarehouseInfoConverter(warehouseMainRepository, warehouseDetailedRepository);
+        }
 
         boolean isSkipped = true;
         List<WarehouseDetailed> result = new ArrayList<>();

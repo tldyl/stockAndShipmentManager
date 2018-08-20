@@ -381,27 +381,41 @@ accessToken: "1gvg12wjrgv3jg1vgjrv3r1vj1"
 ```
 
 
-###获取首页统计信息(TODO)
+###获取月销售产品占比信息
 
 ```
-GET /getSellAchievement
+GET /getSellAchievement/products/monthly
 ```
 
 参数
 
 ```
 accessToken: "1gvg12wjrgv3jg1vgjrv3r1vj1"
+role: "CollectByType"
 ```
-
+```
+accessToken: "1gvg12wjrgv3jg1vgjrv3r1vj1"
+role: "CollectByFullName"
+```
 返回
 
 ```
+CollectByType:
 {
     code: 0,
     msg: "成功",
     data: {
-        xpos: ["Jan","Feb","March"],
-        ypos: [5221,5234,5246],
+        xpos: ["食品","日用品","数码设备"],
+        ypos: [5221.32,5234.56,5246.18],
+    }
+}
+CollectByFullName:
+{
+    code: 0,
+    msg: "成功",
+    data: {
+        xpos: ["xx冰箱","醒记辣条","xx电风扇"],
+        ypos: [4623.43,843.50,1863.95],
     }
 }
 ```

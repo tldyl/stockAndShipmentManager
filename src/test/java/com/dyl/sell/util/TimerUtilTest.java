@@ -17,6 +17,6 @@ public class TimerUtilTest {
     @Test
     public void getCurrentYearMonthDayString() {
         String date = TimerUtil.getCurrentYearMonthDayString("-");
-        System.out.println(date);
+        System.out.println(date.substring(5,7));
     }
 }
