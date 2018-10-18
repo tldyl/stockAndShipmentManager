@@ -51,7 +51,7 @@ public class RewarehouseDetailed {
     /**
      * 商品数量
      */
-    private Integer amount;
+    private Double amount;
     /**
      * 商品单价
      */

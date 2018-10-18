@@ -1,5 +1,6 @@
 package com.dyl.sell.util;
 
+import java.sql.Date;
 import java.util.Calendar;
 
 /**
@@ -19,7 +20,7 @@ public class TimerUtil {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         long tomorrowZero = calendar.getTimeInMillis();
-        return (tomorrowZero- current) / 1000;
+        return (tomorrowZero - current) / 1000;
     }
 
     public static String getCurrentYearMonthDayString(String separator) {
@@ -31,5 +32,13 @@ public class TimerUtil {
             m = "0" + m;
         }
         return y + separator + m + separator + d;
+    }
+
+    public static Date toSqlDate(String y, String m, String d) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, Integer.valueOf(y));
+        calendar.set(Calendar.MONTH, Integer.valueOf(m) - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(d));
+        return new Date(calendar.getTimeInMillis());
     }
 }

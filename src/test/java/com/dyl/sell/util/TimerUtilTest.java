@@ -19,4 +19,9 @@ public class TimerUtilTest {
         String date = TimerUtil.getCurrentYearMonthDayString("-");
         System.out.println(date.substring(5,7));
     }
+
+    @Test
+    public void toSqlDate() {
+        System.out.println(TimerUtil.toSqlDate("2018","6","6"));
+    }
 }

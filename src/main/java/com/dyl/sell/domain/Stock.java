@@ -66,11 +66,11 @@ public class Stock {
     /**
      *库存上限
      */
-    private Integer upperLimit;
+    private Double upperLimit;
     /**
      *库存下限
      */
-    private Integer lowerLimit;
+    private Double lowerLimit;
     /**
      *商品供货信息
      */

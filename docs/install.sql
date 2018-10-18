@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS `gross_sale_monthly`;
 DROP TABLE IF EXISTS `gross_trade_monthly`;
 DROP TABLE IF EXISTS `detail_sale_daily`;
 DROP TABLE IF EXISTS `detail_sale_monthly`;
+DROP TABLE IF EXISTS `product_type`;
 
 -- 进货主表
 CREATE TABLE `warehouse_main`(
@@ -276,4 +277,10 @@ CREATE TABLE `detail_sale_monthly`(
   `full_name` varchar(64) NOT NULL COMMENT '商品全称',
   `amount`  float(255, 2) NOT NULL COMMENT '当月销售额',
   PRIMARY KEY(`full_name`)
+);
+-- 商品类型代号表
+CREATE TABLE `product_type` (
+  `code`  int   NOT NULL COMMENT '商品类型代号',
+  `type`  varchar(16) NOT NULL COMMENT '商品类型',
+  PRIMARY KEY(`code`)
 );

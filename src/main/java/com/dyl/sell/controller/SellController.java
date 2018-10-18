@@ -3,19 +3,19 @@ package com.dyl.sell.controller;
 import com.dyl.sell.async.DetailSalesRecorderClearer;
 import com.dyl.sell.async.GrossSalesCounterClearer;
 import com.dyl.sell.async.GrossTradeCounterClearer;
-import com.dyl.sell.dto.DataToClientContainer;
-import com.dyl.sell.dto.Good;
-import com.dyl.sell.dto.IndexChart;
-import com.dyl.sell.dto.SellDataCommit;
+import com.dyl.sell.domain.SellMain;
+import com.dyl.sell.domain.Stock;
+import com.dyl.sell.domain.WarehouseDetailed;
+import com.dyl.sell.domain.WarehouseMain;
+import com.dyl.sell.dto.*;
 import com.dyl.sell.enums.ErrorEnums;
 import com.dyl.sell.enums.UserOperationCode;
 import com.dyl.sell.repository.*;
-import com.dyl.sell.service.DailySalesCounter;
-import com.dyl.sell.service.DailyTradeCounter;
-import com.dyl.sell.service.OperationAuthorityCheck;
-import com.dyl.sell.service.SellInfoRecorder;
+import com.dyl.sell.service.*;
 import com.dyl.sell.service.sellAchievementRole.AbstractRole;
 import com.dyl.sell.util.DataToClient;
+import com.dyl.sell.util.SellInfoConverter;
+import com.dyl.sell.util.WarehouseInfoConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author tldyl
@@ -43,9 +46,13 @@ public class SellController {
     private GrossTradeDailyRepository grossTradeDailyRepository;
     private GrossSaleMonthlyRepository grossSaleMonthlyRepository;
     private GrossTradeMonthlyRepository grossTradeMonthlyRepository;
+    private SellMainRepository sellMainRepository;
     private SellDetailedRepository sellDetailedRepository;
     private DetailSaleDailyRepository detailSaleDailyRepository;
     private DetailSaleMonthlyRepository detailSaleMonthlyRepository;
+    private StockRepository stockRepository;
+    private WarehouseMainRepository warehouseMainRepository;
+    private WarehouseDetailedRepository warehouseDetailedRepository;
 
     /*
      * 初始化开始
@@ -55,18 +62,26 @@ public class SellController {
                           GrossTradeDailyRepository grossTradeDailyRepository,
                           GrossSaleMonthlyRepository grossSaleMonthlyRepository,
                           GrossTradeMonthlyRepository grossTradeMonthlyRepository,
+                          SellMainRepository sellMainRepository,
                           SellDetailedRepository sellDetailedRepository,
                           DetailSaleDailyRepository detailSaleDailyRepository,
-                          DetailSaleMonthlyRepository detailSaleMonthlyRepository) {
+                          DetailSaleMonthlyRepository detailSaleMonthlyRepository,
+                          StockRepository stockRepository,
+                          WarehouseMainRepository warehouseMainRepository,
+                          WarehouseDetailedRepository warehouseDetailedRepository) {
         logger.info("Initializing SellController...");
 
         this.grossSaleDailyRepository = grossSaleDailyRepository;
         this.grossTradeDailyRepository = grossTradeDailyRepository;
         this.grossSaleMonthlyRepository = grossSaleMonthlyRepository;
         this.grossTradeMonthlyRepository = grossTradeMonthlyRepository;
+        this.sellMainRepository = sellMainRepository;
         this.sellDetailedRepository = sellDetailedRepository;
         this.detailSaleDailyRepository = detailSaleDailyRepository;
         this.detailSaleMonthlyRepository = detailSaleMonthlyRepository;
+        this.stockRepository = stockRepository;
+        this.warehouseMainRepository = warehouseMainRepository;
+        this.warehouseDetailedRepository = warehouseDetailedRepository;
 
         //启动日总销售额刷新监听器
         logger.info("Starting GrossSalesCounterClearer...");
@@ -85,6 +100,7 @@ public class SellController {
         detailSalesRecorderClearerListener.start();
         //初始化日明细销售额记录器
         SellInfoRecorder.setSellDetailedRepository(sellDetailedRepository);
+
 
         logger.info("Initialize complete.");
     }
@@ -198,4 +214,36 @@ public class SellController {
         }
         return DataToClient.send(ErrorEnums.NO_AUTHORITY.getCode(),ErrorEnums.NO_AUTHORITY.getMsg(),null);
     }
+
+    /**
+     * 商品的批量上架操作
+     * @param accessToken 需要提供accessToken才可以使用这个服务
+     * @param goods 需要上架的商品列表
+     * @param dates 对应的上架日期(格式：YYMMDD)
+     * @return 上架情况
+     */
+    @PostMapping("/sell/onShelf")
+    public DataToClientContainer onShelf(@RequestParam(required = false) String accessToken, List<Good> goods, List<String> dates) {
+        if (OperationAuthorityCheck.hasAuthority(accessToken,UserOperationCode.SELL_MANAGE.getCode())) {
+            WarehouseInfoConverter warehouseInfoConverter = new WarehouseInfoConverter(warehouseMainRepository, warehouseDetailedRepository);
+            SellInfoConverter sellInfoConverter = new SellInfoConverter(sellMainRepository,sellDetailedRepository,stockRepository);
+            List<ClientWarehouseDetailed> clientWarehouseDetailedList = new ArrayList<>();
+            for (Good good : goods) {
+                clientWarehouseDetailedList.add(warehouseInfoConverter.concat(good.getTradeCode()));
+            }
+            //库存检查
+            int ctr = 0;
+            for (ClientWarehouseDetailed warehouseDetailed : clientWarehouseDetailedList) {
+                if (stockRepository.findByTradeCode(warehouseDetailed.getTradeCode()) == null) {
+                    return DataToClient.send(ErrorEnums.LOW_STOCK.getCode(),ErrorEnums.LOW_STOCK.getMsg(),ctr);
+                }
+                ctr++;
+            }
+            List<SellMain> sellMainList = sellInfoConverter.toSellMain(clientWarehouseDetailedList, dates);
+            sellMainRepository.saveAll(sellMainList);
+            return DataToClient.send(ErrorEnums.SUCCESS.getCode(),ErrorEnums.SUCCESS.getMsg(),null);
+        }
+        return DataToClient.send(ErrorEnums.NO_AUTHORITY.getCode(),ErrorEnums.NO_AUTHORITY.getMsg(),null);
+    }
+    //下架offShelf
 }

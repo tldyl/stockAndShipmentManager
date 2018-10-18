@@ -13,6 +13,7 @@ public enum UserOperationCode {
     WAREHOUSE_ADD(202,"进货信息的增操作"),
     WAREHOUSE_COMPILE(203,"进货信息的修改操作"),
     SALE_COMMIT(204,"销售额的提交操作"),
+    SELL_MANAGE(205,"商品的上下架操作(下架需要经过审核)"),
     ADMINISTRATOR(99,"超级管理员权限，拥有一切权限"),
     ENTER_USER_MANAGEMENT_PAGE(100,"进入人员管理页面及员工的查询操作"),
     ENTER_DATA_CENTRE_PAGE(101,"进入数据分析中心的权限"),

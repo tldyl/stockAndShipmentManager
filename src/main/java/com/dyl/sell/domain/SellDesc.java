@@ -27,7 +27,7 @@ public class SellDesc {
     /**
      * 销售数量
      */
-    private Integer amount;
+    private Double amount;
     /**
      * 销售总金额
      */

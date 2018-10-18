@@ -51,7 +51,7 @@ public class SellDetailed {
     /**
      * 销售数量
      */
-    private Integer amount;
+    private Double amount;
     /**
      * 销售单价
      */

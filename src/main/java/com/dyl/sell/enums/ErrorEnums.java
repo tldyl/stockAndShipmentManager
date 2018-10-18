@@ -9,7 +9,8 @@ public enum ErrorEnums {
     SEARCH_ARGUMENT_ERROR(4, "搜索参数错误。"),
     TODO(5,"这个功能还没做完"),
     ADD_WAREHOUSEINFO_ERROR(6,"添加进货信息出错"),
-    NULL_DATA(7,"数据为空")
+    NULL_DATA(7,"数据为空"),
+    LOW_STOCK(8,"库存不足")
     ;
     private int code;
     private String msg;
