@@ -23,3 +23,9 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+### VB Codes ###
+*.vbp
+*.vbw
+*.frm
+*.bas
+*.cls
